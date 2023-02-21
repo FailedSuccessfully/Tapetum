@@ -1,9 +1,11 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Video;
 
 public class Tapetum : MonoBehaviour
 {
+    [SerializeReference] Animal[] animals;
     ImageDisplay.State wallState;
     [SerializeField] TMPro.TextMeshProUGUI text;
     [SerializeField] float transitionTime = 5;
@@ -14,6 +16,8 @@ public class Tapetum : MonoBehaviour
     public LightProjector projector;
     public ImageDisplay imgDisp;
     VideoPlayer vid;
+
+    Vector2 current = Vector2.zero;
 
 
     void Awake()
@@ -27,17 +31,28 @@ public class Tapetum : MonoBehaviour
     }
 
     public void GetLightPosition(Vector2 pos){
-        if (projector.On && wallState == (ImageDisplay.State.Searching | ImageDisplay.State.On))
-            RequestSearch();
-            
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            imgDisp.Wall.rectTransform,
-            pos,
-            Camera.main,
-            out Vector2 localPos
-        )){
-            text.text = localPos.ToString();
+        //Debug.Log(pos);
+        current = pos;
+        bool temp =  wallState == ImageDisplay.State.Searching ||  wallState == ImageDisplay.State.On;
+        if (projector.On && temp){
+            Animal closest = animals.OrderBy(a => Vector2.Distance(a.Position, pos)).First();
+            if (Vector2.Distance(closest.Position, pos) <= margin){
+                RequestTransition(closest.Image);
+                //Debug.Log(closest.name);
+            }
+            else {
+                RequestSearch();
+            }
         }
+            
+        // if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+        //     imgDisp.Wall.rectTransform,
+        //     pos,
+        //     Camera.main,
+        //     out Vector2 localPos
+        // )){
+        //     text.text = localPos.ToString();
+        // }
     }
 
     public void ControlLight(bool control) => projector.Control(control);
@@ -65,7 +80,7 @@ public class Tapetum : MonoBehaviour
             SetClip(1);
         }
         wallState = ImageDisplay.State.Searching;
-        StartCoroutine(CountToShutdown(10));
+        //StartCoroutine(CountToShutdown(10));
         }
     }
 
@@ -115,6 +130,16 @@ public class Tapetum : MonoBehaviour
         }
             vid.time = 0;
             vid.Play();
+    }
+    
+    public void SavePosition(int n){
+        animals[n].Position = current;
+    }
+
+    public void ResetPositions(){
+        foreach (Animal a in animals){
+            a.Position = a.DefualtPosition;
+        }
     }
     
 }

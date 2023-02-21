@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 public class LightProjector : MonoBehaviour
 {
+    [SerializeField] Tapetum tap;
     BoxCollider2D target;
     public float idleTime;
     public float tolerance;
@@ -17,7 +18,10 @@ public class LightProjector : MonoBehaviour
     public UnityEvent<string> onRotationUI;
     PlayerInput input;
     SerialController sc;
+    [SerializeField]RectTransform projection;
     float readTime = .25f, timer;
+    Vector2 pos = Vector2.zero;
+    Vector2 offset = Vector2.zero;
 
     void Awake(){
         timer = 0;
@@ -26,6 +30,9 @@ public class LightProjector : MonoBehaviour
 
         input.actions.FindAction("LightSwitch").performed += ctx => LightSwitch(!isOn);     
         input.actions.FindAction("Exit").performed += ctx => Application.Quit();
+        input.actions.FindAction("ResetPosition").performed += ctx => SetOffset();
+        input.actions.FindAction("Save").performed += Save;
+        input.actions.FindAction("Defaults").performed += Default;
     }
     void Update()
     {
@@ -36,24 +43,11 @@ public class LightProjector : MonoBehaviour
             idleFor = 0;
         }
         if (timer > readTime){
-            foo();
+            MoveLightSerial();
             timer -= readTime;
         }
     }
 
-    void foo(){
-        char[] axis = new char[]{'X', 'Y', 'Z'};
-        Vector3 rotValues = Vector3.zero;
-        string output = "";
-        for (int i = 0; i < 3; i++){
-            string message = sc.ReadSerialMessage();
-            output+= axis[i] + " ~ " + message + " | ";
-            if (float.TryParse(message, out float value)){
-                rotValues[i] = value;
-            }
-        }
-        Debug.Log(rotValues * 360);
-    }
 
     public void LightSwitch(bool isOn){
         idleFor = 0;
@@ -78,6 +72,31 @@ public class LightProjector : MonoBehaviour
             //onRotationUI.Invoke(pos.ToString());
             idleFor = 0;
         }
+    }
+    
+    void MoveLightSerial(){
+        string message = sc.ReadSerialMessage();
+
+        if (message != null && message.Contains('~')){
+            string[] values = message.Split('~');
+            pos = new Vector2(float.Parse(values[0]), float.Parse(values[1]));
+            Vector2 withOffset = pos - offset;
+            onRotationUI.Invoke(withOffset.ToString());
+            onRotation.Invoke(withOffset);
+        }
+       // Debug.Log(projection.anchoredPosition);
+    }
+
+    void SetOffset(){
+        offset = pos;
+    }
+
+    void Save(InputAction.CallbackContext ctx){
+        int index = int.Parse(ctx.control.displayName) - 1;
+        tap.SavePosition(index);
+    }
+    void Default(InputAction.CallbackContext ctx){
+        tap.ResetPositions();
     }
 
 }

@@ -153,9 +153,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbb388810276d1044a4b45ba5d50ea77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animals:
+  - {fileID: 11400000, guid: 41dc3866dc9b34642a8da05daefee24a, type: 2}
+  - {fileID: 11400000, guid: dd6806a5ea25ce94f94326a1059f0f23, type: 2}
+  - {fileID: 11400000, guid: 95373ec8a9a50d548a284466a6b925d6, type: 2}
+  - {fileID: 11400000, guid: ea35e88d9aa6ee24dbd7e92f0a92ced1, type: 2}
+  - {fileID: 11400000, guid: 0a31c42c551ca964b87a3063abfad15f, type: 2}
+  - {fileID: 11400000, guid: c0966a07b6046b24ebfd8c4acac73785, type: 2}
+  - {fileID: 11400000, guid: 7e70ecf7de0a58342b007f6cdb1dadf0, type: 2}
   text: {fileID: 1762214002}
   transitionTime: 0.5
-  margin: 50
+  margin: 20
   buffer: 0
   stateSprites:
   - {fileID: 21300000, guid: 1b40350ba9087bb42a27489fb0fde1c4, type: 3}
@@ -2022,7 +2030,6 @@ GameObject:
   - component: {fileID: 1214264545}
   - component: {fileID: 1214264547}
   - component: {fileID: 1214264548}
-  - component: {fileID: 1214264549}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -2042,7 +2049,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3910244692e92524c99096d14b9e4af4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleTime: 5
+  tap: {fileID: 51220524}
+  idleTime: 55555
   tolerance: 0.8
   onIdle:
     m_PersistentCalls:
@@ -2101,6 +2109,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1698883818}
+        m_TargetAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+        m_MethodName: set_anchoredPosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onRotationUI:
     m_PersistentCalls:
       m_Calls:
@@ -2116,6 +2136,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  projection: {fileID: 1698883818}
 --- !u!4 &1214264546
 Transform:
   m_ObjectHideFlags: 0
@@ -2166,7 +2187,7 @@ MonoBehaviour:
     m_ActionName: Mouse/LightSwitch[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Mouse
+  m_DefaultActionMap: General
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &1214264548
@@ -2185,25 +2206,7 @@ MonoBehaviour:
   baudRate: 115200
   messageListener: {fileID: 0}
   reconnectionDelay: 1000
-  maxUnreadMessages: 10
---- !u!114 &1214264549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1214264544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 223f0e4bcadad324e9ab9a12c33326a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  portName: COM3
-  baudRate: 9600
-  messageListener: {fileID: 0}
-  reconnectionDelay: 1000
-  maxUnreadMessages: 1
-  separator: 90
+  maxUnreadMessages: 1000
 --- !u!224 &1269829092 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 649982980673666519, guid: 77c9d4d1a8d15244c85e49c6e58aea85, type: 3}
@@ -2237,7 +2240,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1292762561
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2552,6 +2555,95 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1698883817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1698883818}
+  - component: {fileID: 1698883819}
+  m_Layer: 5
+  m_Name: PseudoLight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1698883818
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698883817}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalScale: {x: 50, y: 50, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1269829092}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -4.3, y: 13}
+  m_SizeDelta: {x: 1, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!212 &1698883819
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698883817}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Color: {r: 0.8773585, g: 0.8773585, b: 0.23921569, a: 0.34117648}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!114 &1762214002 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 16836990628379086, guid: e1bb920c6a159f84ea94238a89a0630b, type: 3}
