@@ -6,14 +6,14 @@ The arduino controller is connected to a 9DOF sensor that uses an accelerometer,
 
 Here are, in short summary, the steps required in order to use this project: (TODO: add links in in dpeth instructions)
 
-# A. Arduino Side
+## A. Arduino Side
 all programs are taken from the same repo - (link to repo)
 
 1. Calibration Script - a short calibration process with an arduino program. Output needs to be captured and saved for step 2
 2. Magneto - Running magneto on magnetometer and acceleromter readings, the output needs to be copied into the arduino code that handles approximation.
 3. Custom AHRS filter - a somewhat modified version of the Mahony AHRS filter that takes sensor data and converts it to quaternion representation. Description of my modifications will be added.
 
-# B. Unity Side
+## B. Unity Side
 
 1. Ardity - A package for unity that helps to facilitate serial communication between arduino and unity
 2. Management of dispaly through states
