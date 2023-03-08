@@ -47,7 +47,7 @@ public class Collector : MonoBehaviour
                         break;
                     }
                     default:{
-                        Debug.Log(s.Substring(0,2));
+                        Debug.Log(s);
                         break;
                     }
                 }
