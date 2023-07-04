@@ -15,5 +15,5 @@ MonoBehaviour:
   DefualtPosition: {x: -90, y: 10}
   Position: {x: -90, y: 10}
   DefualtOrientation: {x: -4.5, y: -46, z: 10}
-  Orientation: {x: 0, y: 0, z: 0}
-  Image: {fileID: 21300000, guid: 26fd1c3fff297cd4b85fa4e5505ea6c4, type: 3}
+  Orientation: {x: -4.5, y: -46, z: 10}
+  Image: {fileID: 21300000, guid: 90035efb60f7ed44897ce2845367db77, type: 3}

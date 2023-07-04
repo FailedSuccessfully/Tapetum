@@ -12,6 +12,7 @@ public class DisplayController : MonoBehaviour
     [SerializeField]Image target;
     [SerializeField]Sprite[] stateSprites;
     [SerializeField]float transitionTime;
+    [SerializeField] Image sequence;
 
     Material matInstance;
     Coroutine transition;
@@ -49,7 +50,7 @@ public class DisplayController : MonoBehaviour
                 break;
             }
         }
-
+        sequence.gameObject.SetActive(TapetumController.State == AppState.IdleOff ? true : false);
         SetDisplay(spr, instant ? 0 : transitionTime);
     }
 

@@ -15,5 +15,5 @@ MonoBehaviour:
   DefualtPosition: {x: 36, y: -7}
   Position: {x: 36, y: -7}
   DefualtOrientation: {x: 5, y: 16, z: 1}
-  Orientation: {x: 0, y: 0, z: 0}
-  Image: {fileID: 21300000, guid: 7054f02f7d06f164582628b858772247, type: 3}
+  Orientation: {x: 5, y: 16, z: 1}
+  Image: {fileID: 21300000, guid: 580099fd1c5f89f45b7fa6f17d551c27, type: 3}

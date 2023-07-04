@@ -42,8 +42,8 @@ public class TapetumController : MonoBehaviour{
 
         }
 
-        static void SetState(AppState toSet){
-           // Debug.Log($"Setting To: {toSet.ToString()}");
+        public static void SetState(AppState toSet){
+            Debug.Log($"Setting To: {toSet.ToString()}");
             state = toSet;
             Debug.Log(boundObject.name);
             boundObject.StateCallback();
@@ -139,7 +139,12 @@ public class TapetumController : MonoBehaviour{
 
     // Update is called once per frame
     void Update()
-    {  
+    {
+        if (Time.time > 7){
+            StateManager.SetState(AppState.IdleOff);
+        } else if (Time.time > 5){
+            StateManager.SetState(AppState.InfoOn);
+        }
     }
 
     void LateUpdate()
