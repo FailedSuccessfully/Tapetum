@@ -76,4 +76,5 @@ public class DisplayController : MonoBehaviour
         }
         matInstance.SetFloat("_Lerp", 1);
     }
+
 }

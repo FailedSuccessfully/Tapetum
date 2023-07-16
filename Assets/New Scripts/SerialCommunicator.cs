@@ -21,6 +21,7 @@ public class SerialCommunicator : MonoBehaviour
         controller = GetComponent<SerialController>();
         NotifyOrientation.AddListener(vec => NotifyOrientationString.Invoke(vec.ToString()));
         offset = Quaternion.identity;
+        storedOrientation = Quaternion.identity;
         flight = GetComponentInChildren<Flashlight>();
     }
 
@@ -51,7 +52,10 @@ public class SerialCommunicator : MonoBehaviour
     }
 
     public void SaveOffset(InputAction.CallbackContext ctx){
+
         if (ctx.phase == InputActionPhase.Performed){
+            Debug.Log($"Offset was - {offset}");
+            Debug.Log($"Changing to - {storedOrientation}");
             offset = storedOrientation;
         }
     }
@@ -63,6 +67,7 @@ public class SerialCommunicator : MonoBehaviour
 
         NotifyOrientationQ.Invoke(q*offset);
         storedOrientation = q;
+        Debug.Log($"orientation - {q} | offset - {offset} | orientation with offset = {q*offset}" );
     }
 
     void ParseIdleData(string s){

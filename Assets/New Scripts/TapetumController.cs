@@ -20,7 +20,8 @@ public class TapetumController : MonoBehaviour{
         public static float StateTimer => outTimer;
         static TapetumController boundObject;
 
-        static bool flashlightOn;
+        public static bool flashlightOn;
+        public static bool showcaseMode;
         static float outTimer = 0;
         static Animal target;
         static Coroutine myTimer = null;
@@ -43,14 +44,14 @@ public class TapetumController : MonoBehaviour{
         }
 
         public static void SetState(AppState toSet){
-            Debug.Log($"Setting To: {toSet.ToString()}");
+            //Debug.Log($"Setting To: {toSet.ToString()}");
             state = toSet;
-            Debug.Log(boundObject.name);
+            //Debug.Log(boundObject.name);
             boundObject.StateCallback();
 
-            if (toSet == AppState.AnimalScoped){
+            if (!showcaseMode && toSet == AppState.AnimalScoped){
                 if (myTimer == null || outTimer <=0){
-                    myTimer = boundObject.StartCoroutine(Timer(5, () => SetState(AppState.Searching)));
+                   myTimer = boundObject.StartCoroutine(Timer(5, () => SetState(AppState.Searching))); 
                 }
             }
         }
@@ -109,6 +110,8 @@ public class TapetumController : MonoBehaviour{
     [SerializeReference] DisplayController display;
     [SerializeReference] Animal[] animals;
     [SerializeReference] RectTransform lightSimulation;
+    [SerializeReference] GameObject wallDisplay, debugDisplay;
+    [SerializeField] bool showcaseMode;
     IEnumerable<Animal> orderedAnimals;
 
     bool flashLightActive;
@@ -120,6 +123,7 @@ public class TapetumController : MonoBehaviour{
     void Awake()
     {
         StateManager.BindObject(this);
+        StateManager.showcaseMode = showcaseMode;
     }
     void Start()
     {
@@ -131,6 +135,11 @@ public class TapetumController : MonoBehaviour{
         flashLightActive = false;
         PositionDefaults();
         StateManager.ReceieveActivity(false);
+
+        if (showcaseMode){
+         StartCoroutine(Showcase());
+         Debug.Log("0");
+        }
     }
     
     internal void StateCallback(){
@@ -140,11 +149,29 @@ public class TapetumController : MonoBehaviour{
     // Update is called once per frame
     void Update()
     {
-        if (Time.time > 7){
-            StateManager.SetState(AppState.IdleOff);
-        } else if (Time.time > 5){
-            StateManager.SetState(AppState.InfoOn);
+    }
+
+    public IEnumerator Showcase(){
+        float t = 5;
+        StateManager.flashlightOn = true;
+         yield return new WaitForSeconds(1);
+        StateManager.SetState(AppState.IdleOff);
+        Debug.Log("1");
+        yield return new WaitForSeconds(t);
+        StateManager.SetState(AppState.InfoOn);
+        Debug.Log("2");
+        yield return new WaitForSeconds(t);
+        StateManager.SetState(AppState.Searching);
+        Debug.Log("3");
+        yield return new WaitForSeconds(t);
+        
+        for (int i = 0; i < animals.Count(); i++){
+            target = animals[i];
+            Debug.Log(i + 4);
+            StateManager.ReceiveAnimal(target);
+            yield return new WaitForSeconds(t);
         }
+        StartCoroutine(Showcase());
     }
 
     void LateUpdate()
@@ -200,4 +227,10 @@ public class TapetumController : MonoBehaviour{
 
     public void SetOffsets() {projectionOffset = lastRead; Debug.Log(projectionOffset);}
 
+    public void ToggleWall(){
+        wallDisplay.SetActive(!wallDisplay.activeSelf);   
+    }
+    public void ToggleDebug(){
+        debugDisplay.SetActive(!debugDisplay.activeSelf);   
+    }
 }
