@@ -109,8 +109,9 @@ public class TapetumController : MonoBehaviour{
     [SerializeReference] SerialCommunicator serial;
     [SerializeReference] DisplayController display;
     [SerializeReference] Animal[] animals;
+    [SerializeReference] TMPro.TextMeshProUGUI[] animalsDisplay;
     [SerializeReference] RectTransform lightSimulation;
-    [SerializeReference] GameObject wallDisplay, debugDisplay;
+    [SerializeReference] GameObject wallDisplay, debugDisplay, animalDebug;
     [SerializeField] bool showcaseMode;
     IEnumerable<Animal> orderedAnimals;
 
@@ -133,7 +134,7 @@ public class TapetumController : MonoBehaviour{
         lastRead = Vector2.zero;
         projectionOffset = Vector2.zero;
         flashLightActive = false;
-        PositionDefaults();
+        //PositionDefaults();
         StateManager.ReceieveActivity(false);
 
         if (showcaseMode){
@@ -149,6 +150,9 @@ public class TapetumController : MonoBehaviour{
     // Update is called once per frame
     void Update()
     {
+        for (int i = 0; i < animals.Count(); i++){
+            animalsDisplay[i].text = animals[i].Orientation.ToString();
+        }
     }
 
     public IEnumerator Showcase(){
@@ -231,6 +235,7 @@ public class TapetumController : MonoBehaviour{
         wallDisplay.SetActive(!wallDisplay.activeSelf);   
     }
     public void ToggleDebug(){
-        debugDisplay.SetActive(!debugDisplay.activeSelf);   
+        debugDisplay.SetActive(!debugDisplay.activeSelf);  
+        animalDebug.SetActive(!animalDebug.activeSelf); 
     }
 }
