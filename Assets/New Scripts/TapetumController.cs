@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using System.IO;
 
 public enum AppState
 {
@@ -77,7 +78,7 @@ public class TapetumController : MonoBehaviour{
 
         public static void BindObject(TapetumController obj){
             boundObject = obj;
-            Debug.Log(boundObject.name);
+            //Debug.Log(boundObject.name);
         }
 
         static IEnumerator Timer(float time, UnityAction onEnd){
@@ -119,15 +120,20 @@ public class TapetumController : MonoBehaviour{
     public static AppState State => StateManager.state;
     public static Animal Target => target;
 
+    string dataPath = "/animals.dat";
+
     Coroutine StateTransition;
     // Start is called before the first frame update
     void Awake()
     {
         StateManager.BindObject(this);
         StateManager.showcaseMode = showcaseMode;
+
+        dataPath = Application.persistentDataPath + dataPath;
     }
     void Start()
     {
+        LoadData();
         StateTransition = null;
         lastTarget = null;
         timer = 0;
@@ -218,6 +224,7 @@ public class TapetumController : MonoBehaviour{
         Animal target = animals[index];
         target.Position = lastRead - projectionOffset;
         target.Orientation = (serial.storedOrientation * serial.offset).eulerAngles;
+        SaveData();
     }
 
     public void PositionDefaults(){
@@ -225,6 +232,7 @@ public class TapetumController : MonoBehaviour{
             a.Position = a.DefualtPosition;
             a.Orientation = a.DefualtOrientation;
         }
+        SaveData();
     }
 
     public void QuitApplication() => Application.Quit();
@@ -237,5 +245,26 @@ public class TapetumController : MonoBehaviour{
     public void ToggleDebug(){
         debugDisplay.SetActive(!debugDisplay.activeSelf);  
         animalDebug.SetActive(!animalDebug.activeSelf); 
+    }
+
+    void LoadData(){
+        if (File.Exists(dataPath)){
+            string[] loadedData = File.ReadAllLines(dataPath);
+            for (int i = 0; i < animals.Length; i++){
+                JsonUtility.FromJsonOverwrite(loadedData[i], animals[i]);
+            }
+        }
+        else {
+            SaveData();
+        }
+    }
+
+    void SaveData(){
+        string[] s = new string[animals.Length];
+        for (int i = 0; i < animals.Length; i++){
+            s[i] = animals[i].AsJSON();
+        }
+
+        File.WriteAllLines(dataPath, s);
     }
 }
