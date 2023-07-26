@@ -36,12 +36,12 @@ public class Flashlight : MonoBehaviour
             point = hit.point;
             //Debug.Log(hit.transform.GetComponent<RectTransform>().TransformPoint(point));
             scom.NotifyOrientation.Invoke(point.normalized);
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
+            //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
         }        
         else
         {
             point = Vector3.positiveInfinity;
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.red);
+            //Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.red);
         }
     }
 

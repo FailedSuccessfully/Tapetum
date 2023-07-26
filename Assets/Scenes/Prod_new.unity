@@ -1333,6 +1333,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b6c77ea5-9606-4ab0-b5d5-184394440db9
     m_ActionName: single/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1214264547}
+        m_TargetAssemblyTypeName: SerialCommunicator, Assembly-CSharp
+        m_MethodName: InvokeLight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 97e67035-4c35-4b68-8dd9-25c839031022
+    m_ActionName: single/Light[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1214264547}
+        m_TargetAssemblyTypeName: SerialCommunicator, Assembly-CSharp
+        m_MethodName: InvokeOrientation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d4d0294b-e43f-4cd0-af18-16d5e4a42f3f
+    m_ActionName: single/Sends[/Keyboard/s]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: single
@@ -2345,8 +2377,17 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   tc: {fileID: 51220527}
+  ta:
+  - {fileID: 11400000, guid: dd6806a5ea25ce94f94326a1059f0f23, type: 2}
+  - {fileID: 11400000, guid: ea35e88d9aa6ee24dbd7e92f0a92ced1, type: 2}
+  - {fileID: 11400000, guid: 7e70ecf7de0a58342b007f6cdb1dadf0, type: 2}
+  - {fileID: 11400000, guid: c0966a07b6046b24ebfd8c4acac73785, type: 2}
+  - {fileID: 11400000, guid: 41dc3866dc9b34642a8da05daefee24a, type: 2}
+  - {fileID: 11400000, guid: 95373ec8a9a50d548a284466a6b925d6, type: 2}
+  - {fileID: 11400000, guid: 0a31c42c551ca964b87a3063abfad15f, type: 2}
   offset: {x: 0, y: 0, z: 0, w: 0}
   storedOrientation: {x: 0, y: 0, z: 0, w: 0}
+  test: {x: 0.2857085, y: -0.25799304, z: 0.8359975, w: -0.39104787}
 --- !u!114 &1214264548
 MonoBehaviour:
   m_ObjectHideFlags: 0

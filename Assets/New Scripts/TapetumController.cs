@@ -27,6 +27,8 @@ public class TapetumController : MonoBehaviour{
         static Animal target;
         static Coroutine myTimer = null;
 
+        public static void ResetTimer(int time) => outTimer = time;
+
         public static void ReceieveActivity(bool signal){
             if (signal != flashlightOn){
                 if (!signal)
@@ -45,34 +47,42 @@ public class TapetumController : MonoBehaviour{
         }
 
         public static void SetState(AppState toSet){
-            //Debug.Log($"Setting To: {toSet.ToString()}");
+            Debug.Log($"Setting To: {toSet.ToString()}");
             state = toSet;
-            //Debug.Log(boundObject.name);
             boundObject.StateCallback();
 
             if (!showcaseMode && toSet == AppState.AnimalScoped){
-                if (myTimer == null || outTimer <=0){
-                   myTimer = boundObject.StartCoroutine(Timer(5, () => SetState(AppState.Searching))); 
+                if (myTimer != null){
+                    boundObject.StopCoroutine(myTimer);
                 }
+                myTimer = boundObject.StartCoroutine(Timer(5, () => SetState(AppState.Searching))); 
             }
         }
 
         public static void ReceiveAnimal(Animal animal){
-            
+           // Debug.Log($"target - {target} | animal - {animal}");
+            // if (flashlightOn){
+            //     if (animal != target){}
+            //     if ()
+                // if animal is null, delay for a bit 
+            // }
             if (flashlightOn && target != animal){
                 if (animal){
                     SetState(AppState.AnimalScoped);
-                    target = animal;
                 }
                 else {
+                    Debug.Log("animal null");
                     if (myTimer!= null){
                         boundObject.StopCoroutine(myTimer);
                         myTimer = null;
+                        Debug.Log("Timer null");
                     }
                     if (state != AppState.Searching){
+                        Debug.Log("going searching");
                         SetState(AppState.Searching);
                     }
                 }
+                target = animal;
             }
         }
 
@@ -97,6 +107,7 @@ public class TapetumController : MonoBehaviour{
 
     public float radius;
     public float animalCountdown;
+    int nc = 0;
 
     public TMPro.TextMeshProUGUI myState;
     public TMPro.TextMeshProUGUI myTimer;
@@ -140,7 +151,6 @@ public class TapetumController : MonoBehaviour{
         lastRead = Vector2.zero;
         projectionOffset = Vector2.zero;
         flashLightActive = false;
-        //PositionDefaults();
         StateManager.ReceieveActivity(false);
 
         if (showcaseMode){
@@ -209,12 +219,20 @@ public class TapetumController : MonoBehaviour{
         
         var test = animals.OrderBy(anim => Quaternion.Angle(q, Quaternion.Euler(anim.Orientation)));
         Animal first = test.First();
-        if (Quaternion.Angle(q, Quaternion.Euler(first.Orientation)) <= 12){
+        if (Quaternion.Angle(q, Quaternion.Euler(first.Orientation)) <= radius){
             target = first;
-            StateManager.ReceiveAnimal(target);
+            if (target != lastTarget){
+                StateManager.ReceiveAnimal(target);
+                nc = 0;
+            }
         }
         else{
-            StateManager.ReceiveAnimal(null);
+            nc++;
+            Debug.Log(nc);
+            if (nc > 500){
+                StateManager.ReceiveAnimal(null);
+                nc = 0;
+            }
         }
     }
 

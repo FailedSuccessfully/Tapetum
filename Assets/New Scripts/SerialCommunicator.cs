@@ -14,10 +14,11 @@ public class SerialCommunicator : MonoBehaviour
     public UnityEvent<string> NotifyOrientationString;
 
     [SerializeReference] TapetumController tc;
+    public Animal[] ta;
 
     string cfg = Application.streamingAssetsPath + "/settings.cfg";
     SerialController controller;
-    public Quaternion offset, storedOrientation;
+    public Quaternion offset, storedOrientation, test;
     Flashlight flight;
     // Start is called before the first frame update
     void Awake()
@@ -89,7 +90,7 @@ public class SerialCommunicator : MonoBehaviour
 
         NotifyOrientationQ.Invoke(q*offset);
         storedOrientation = q;
-        Debug.Log($"orientation - {q} | offset - {offset} | orientation with offset = {q*offset}" );
+        //Debug.Log($"orientation - {q} | offset - {offset} | orientation with offset = {q*offset}" );
     }
 
     void ParseIdleData(string s){
@@ -99,5 +100,33 @@ public class SerialCommunicator : MonoBehaviour
         }
         else
             Debug.LogError($"Failed to Parse Idle data for string - {s}", this);
+    }
+
+    public void InvokeLight(){
+        NotifyActivity.Invoke(true);
+    }
+    public void InvokeOrientation(){
+        //NotifyOrientationQ.Invoke(test);
+        StartCoroutine(testQ());
+
+    }
+
+    IEnumerator testQ(){
+        Quaternion now = Quaternion.identity;
+        Quaternion next;
+        for (int i = 0; i < 1; i++){
+            foreach(Animal a in ta){
+                next = Quaternion.Euler(a.Orientation);
+
+                for (float t = 0; t < 2; t+= Time.deltaTime){
+                    NotifyOrientationQ.Invoke(Quaternion.Slerp(now, next, t * .5f));
+                    yield return new WaitForEndOfFrame();
+                }
+                NotifyOrientationQ.Invoke(next);
+                yield return new WaitForSeconds(1);
+                now = Quaternion.Euler(a.Orientation);
+            }
+        }
+        yield return null;
     }
 }
