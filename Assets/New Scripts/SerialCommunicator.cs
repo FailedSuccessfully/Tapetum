@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(SerialController))]
 public class SerialCommunicator : MonoBehaviour
 {
+    string settingPath = "/settings.dat";
+
     public UnityEvent<bool> NotifyActivity;
     public UnityEvent<Vector2> NotifyOrientation;
     public UnityEvent<Quaternion> NotifyOrientationQ;
@@ -19,10 +21,11 @@ public class SerialCommunicator : MonoBehaviour
     string cfg = Application.streamingAssetsPath + "/settings.cfg";
     SerialController controller;
     public Quaternion offset, storedOrientation, test;
-    Flashlight flight;
+    public Flashlight flight;
     // Start is called before the first frame update
     void Awake()
     {
+        settingPath = Application.persistentDataPath + settingPath;
         offset = Quaternion.identity;
         controller = GetComponent<SerialController>();
 
@@ -32,17 +35,14 @@ public class SerialCommunicator : MonoBehaviour
                 controller.portName = data[0];
             }
             if (data.Length > 1 && data[1] != ""){
-                string[] angles = data[1].Trim(new[] {'[', ']'}).Split(',');
-                offset = Quaternion.Euler(float.Parse(angles[0]), float.Parse(angles[1]), float.Parse(angles[2]));
-            }
-            if (data.Length > 2 && data[2] != ""){
-                tc.radius = float.Parse(data[2]);
+                tc.radius = float.Parse(data[1]);
             }
         }
         
     }
     void Start()
     {
+        LoadData();
         NotifyOrientation.AddListener(vec => NotifyOrientationString.Invoke(vec.ToString()));
         storedOrientation = Quaternion.identity;
         flight = GetComponentInChildren<Flashlight>();
@@ -128,5 +128,34 @@ public class SerialCommunicator : MonoBehaviour
             }
         }
         yield return null;
+    }
+
+    void LoadData()
+    {
+        if (File.Exists(settingPath))
+        {
+            string[] loadedData = File.ReadAllLines(settingPath);
+            Vector3 loaded = JsonUtility.FromJson<Vector3>(loadedData[0]);
+            offset = Quaternion.Euler(loaded);
+        } else
+        {
+            SaveData();
+        }
+    }
+
+    void SaveData()
+    {
+        string[] s = new string[1];
+        s[0] = JsonUtility.ToJson(offset.eulerAngles);
+
+        File.WriteAllLines(settingPath, s);
+    }
+
+    public void SetSimulationVisible(bool visible)
+    {
+        foreach (MeshRenderer mesh in GetComponentsInChildren<MeshRenderer>())
+        {
+            mesh.enabled = visible;
+        }
     }
 }

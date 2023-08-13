@@ -228,7 +228,6 @@ public class TapetumController : MonoBehaviour{
         }
         else{
             nc++;
-            Debug.Log(nc);
             if (nc > 500){
                 StateManager.ReceiveAnimal(null);
                 nc = 0;
@@ -243,6 +242,7 @@ public class TapetumController : MonoBehaviour{
         target.Position = lastRead - projectionOffset;
         target.Orientation = (serial.storedOrientation * serial.offset).eulerAngles;
         SaveData();
+        serial.flight.SortMarkers();
     }
 
     public void PositionDefaults(){
