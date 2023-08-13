@@ -269,7 +269,9 @@ public class TapetumController : MonoBehaviour{
         if (File.Exists(dataPath)){
             string[] loadedData = File.ReadAllLines(dataPath);
             for (int i = 0; i < animals.Length; i++){
+                Sprite img = animals[i].Image;
                 JsonUtility.FromJsonOverwrite(loadedData[i], animals[i]);
+                animals[i].Image = img;
             }
         }
         else {
