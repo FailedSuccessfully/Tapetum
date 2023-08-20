@@ -22,7 +22,6 @@ public class SerialCommunicator : MonoBehaviour
     SerialController controller;
     public Quaternion offset, storedOrientation, test;
     public Flashlight flight;
-    int tossCounter;
     // Start is called before the first frame update
     void Awake()
     {
@@ -43,9 +42,8 @@ public class SerialCommunicator : MonoBehaviour
     }
     void Start()
     {
-        tossCounter = 0;
         LoadData();
-        NotifyOrientation.AddListener(vec => NotifyOrientationString.Invoke(vec.ToString()));
+        NotifyOrientationQ.AddListener(vec => NotifyOrientationString.Invoke(vec.ToString()));
         storedOrientation = Quaternion.identity;
         flight = GetComponentInChildren<Flashlight>();
         
@@ -54,16 +52,19 @@ public class SerialCommunicator : MonoBehaviour
     // Update is called once per frame
     void  Update()
     {
-        if (controller.enabled)
-            AcceptMessage();
     }
 
-    void AcceptMessage(){
+    void AcceptMessage() {
         string message = controller.ReadSerialMessage();
 
-        if (message is null || message.Length == 0){
+        if (message is null || message.Length == 0)
+        {
             return;
         }
+        AcceptMessage(message);
+    }
+
+    void AcceptMessage(string message) { 
 
         char symbol = message[0];
         switch (symbol){
@@ -72,12 +73,7 @@ public class SerialCommunicator : MonoBehaviour
                 break;
             }
             case '@': {
-                if (tossCounter < 40){
-                    Debug.Log($"tossing message - {message}");
-                    tossCounter++;
-                    return;
-                }
-                Debug.Log($"accepting message - {message}");
+                //Debug.Log($"accepting message - {message}");
                 ParseOrientationData(message.Substring(1));
                 break;
             }
@@ -85,11 +81,14 @@ public class SerialCommunicator : MonoBehaviour
                 StartCoroutine(Reconnect());
                 break;
             }
+            default: {
+                Debug.Log(message);
+                break;
+            }
         }
     }
     IEnumerator Reconnect(){
         Debug.Log("reconnect start");
-        tossCounter = 0;
         controller.enabled = false;
         yield return new WaitForSeconds(5);
         controller.enabled = true;
@@ -108,7 +107,7 @@ public class SerialCommunicator : MonoBehaviour
     void ParseOrientationData(string s){
         string[] values = s.Split('~');
 
-        Quaternion q = new Quaternion(float.Parse(values[1]), float.Parse(values[2]),float.Parse(values[3]),float.Parse(values[0]));
+        Quaternion q = new Quaternion(float.Parse(values[0]), float.Parse(values[1]),float.Parse(values[2]),float.Parse(values[3]));
 
         NotifyOrientationQ.Invoke(q*offset);
         storedOrientation = q;
@@ -180,4 +179,12 @@ public class SerialCommunicator : MonoBehaviour
             mesh.enabled = visible;
         }
     }
+    void OnMessageArrived(string msg)
+    {
+        AcceptMessage(msg);
+    }
+    void OnConnectionEvent(bool success)
+    {
+        Debug.Log(success ? "connect" : "fail");
+   }
 }

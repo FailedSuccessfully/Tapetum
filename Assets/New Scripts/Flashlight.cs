@@ -21,8 +21,8 @@ public class Flashlight : MonoBehaviour
     // Update is called once per frame
     void Update()
     { 
-        Quaternion rotation = Quaternion.RotateTowards(transform.rotation, tilt, 180 * Time.deltaTime);
-        transform.rotation = rotation;
+        //Quaternion rotation = Quaternion.RotateTowards(transform.rotation, tilt, 180 * Time.deltaTime);
+        //transform.rotation = rotation;
     }
 
     void FixedUpdate()
@@ -32,6 +32,7 @@ public class Flashlight : MonoBehaviour
 
     public void ReceiveTilt(Quaternion q){
         tilt = q;
+        transform.rotation = q;
     }
 
     void CastOnWall(){
