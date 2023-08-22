@@ -2630,7 +2630,7 @@ MonoBehaviour:
   baudRate: 115200
   messageListener: {fileID: 1214264544}
   reconnectionDelay: 1000
-  maxUnreadMessages: 3
+  maxUnreadMessages: 10
   dropOldMessage: 1
 --- !u!224 &1269829092 stripped
 RectTransform:
