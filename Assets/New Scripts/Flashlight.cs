@@ -7,14 +7,17 @@ public class Flashlight : MonoBehaviour
     Vector3 point = Vector3.positiveInfinity;
     Quaternion tilt;
     SerialCommunicator scom;
+    float range = 50;
     public SphereCollider targetIntersect;
-    public SphereCollider[] markers;
+    public AnimalMarker[] markers;
+    public TapetumController tc;
     // Start is called before the first frame update
     void Start()
     {
         scom = GetComponentInParent<SerialCommunicator>();
         tilt = Quaternion.identity;
 
+        targetIntersect.transform.localScale *= tc.radius;
         SortMarkers();
     }
 
@@ -27,12 +30,15 @@ public class Flashlight : MonoBehaviour
 
     void FixedUpdate()
     {
-        CastOnWall(); 
+        //CastOnWall(); 
+        targetIntersect.transform.position = new Ray(transform.position, transform.forward).GetPoint(range);
     }
 
     public void ReceiveTilt(Quaternion q){
         tilt = q;
-        transform.rotation = q;
+        Vector3 vTilt = tilt.eulerAngles;
+        vTilt.z = 0;
+        transform.localRotation = Quaternion.Euler(vTilt);
     }
 
     void CastOnWall(){
@@ -52,13 +58,15 @@ public class Flashlight : MonoBehaviour
     }
     public void SortMarkers()
     {
-        int count = 0;
-        foreach (Animal a in scom.ta)
+        Quaternion rot = transform.localRotation;
+        foreach (AnimalMarker marker in markers)
         {
-            transform.rotation = Quaternion.Euler(a.Orientation);
-            CastOnWall();
-            markers[count].transform.position = point;
-            count++;
+            Vector3 vTilt = Quaternion.Euler(marker.animal.Orientation).eulerAngles;
+            vTilt.z = 0;
+            transform.localRotation = Quaternion.Euler(vTilt);
+            Ray r = new Ray(transform.position, transform.forward);
+            marker.transform.position = r.GetPoint(range);
         }
+        transform.localRotation = rot;
     }
 }

@@ -215,24 +215,31 @@ public class TapetumController : MonoBehaviour{
 
     }
 
+    public void GetTarget(Animal animal){
+        target = animal;
+        if (target  != lastTarget){
+            StateManager.ReceiveAnimal(target);
+        }
+    }
+
     public void OnCallOrientation(Quaternion q){
         
-        var test = animals.OrderBy(anim => Quaternion.Angle(q, Quaternion.Euler(anim.Orientation)));
-        Animal first = test.First();
-        if (Quaternion.Angle(q, Quaternion.Euler(first.Orientation)) <= radius){
-            target = first;
-            if (target != lastTarget){
-                StateManager.ReceiveAnimal(target);
-                nc = 0;
-            }
-        }
-        else{
-            nc++;
-            if (nc > 500){
-                StateManager.ReceiveAnimal(null);
-                nc = 0;
-            }
-        }
+        // var test = animals.OrderBy(anim => Quaternion.Angle(q, Quaternion.Euler(anim.Orientation)));
+        // Animal first = test.First();
+        // if (Quaternion.Angle(q, Quaternion.Euler(first.Orientation)) <= radius){
+        //     target = first;
+        //     if (target != lastTarget){
+        //         StateManager.ReceiveAnimal(target);
+        //         nc = 0;
+        //     }
+        // }
+        // else{
+        //     nc++;
+        //     if (nc > 500){
+        //         StateManager.ReceiveAnimal(null);
+        //         nc = 0;
+        //     }
+        // }
     }
 
 

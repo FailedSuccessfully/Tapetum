@@ -64,7 +64,7 @@ public class SerialCommunicator : MonoBehaviour
         AcceptMessage(message);
     }
 
-    void AcceptMessage(string message) { 
+    public void AcceptMessage(string message) { 
 
         char symbol = message[0];
         switch (symbol){

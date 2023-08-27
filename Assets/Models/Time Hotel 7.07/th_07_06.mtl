@@ -1,0 +1,33 @@
+
+newmtl 0.ReflectiveMaterial
+Kd  0.0039215688 0.0039215688 0.0039215688
+Ks  0.8 0.8 0.8
+Ka  00 00 00
+d  01
+Ns  925
+illum 2
+
+
+
+
+newmtl 1.ReflectiveTransparentMaterial
+Kd  01 01 01
+Ks  0.8 0.8 0.8
+Ka  00 00 00
+d  0.33333002
+Ns  925
+illum 2
+
+
+
+
+newmtl 2.ReflectiveTransparentMaterial
+Kd  0.0039215688 0.0039215688 0.0039215688
+Ks  0.8 0.8 0.8
+Ka  00 00 00
+d  0.33333002
+Ns  925
+illum 2
+
+
+
