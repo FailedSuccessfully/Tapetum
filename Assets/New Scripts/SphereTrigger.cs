@@ -7,6 +7,7 @@ public class SphereTrigger : MonoBehaviour
 {
     TapetumController tc;
     List<AnimalMarker> inTrigger;
+
     // Start is called before the first frame update
     void Start()
     {

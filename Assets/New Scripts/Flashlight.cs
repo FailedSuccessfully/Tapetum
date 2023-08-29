@@ -36,9 +36,7 @@ public class Flashlight : MonoBehaviour
 
     public void ReceiveTilt(Quaternion q){
         tilt = q;
-        Vector3 vTilt = tilt.eulerAngles;
-        vTilt.z = 0;
-        transform.localRotation = Quaternion.Euler(vTilt);
+        transform.localRotation = tilt;
     }
 
     void CastOnWall(){
@@ -61,9 +59,7 @@ public class Flashlight : MonoBehaviour
         Quaternion rot = transform.localRotation;
         foreach (AnimalMarker marker in markers)
         {
-            Vector3 vTilt = Quaternion.Euler(marker.animal.Orientation).eulerAngles;
-            vTilt.z = 0;
-            transform.localRotation = Quaternion.Euler(vTilt);
+            transform.localRotation = Quaternion.Euler(marker.animal.Orientation);
             Ray r = new Ray(transform.position, transform.forward);
             marker.transform.position = r.GetPoint(range);
         }

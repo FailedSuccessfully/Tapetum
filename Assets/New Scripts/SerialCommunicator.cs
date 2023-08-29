@@ -17,6 +17,7 @@ public class SerialCommunicator : MonoBehaviour
 
     [SerializeReference] TapetumController tc;
     public Animal[] ta;
+    public Camera mainCam, simCam;
 
     string cfg = Application.streamingAssetsPath + "/settings.cfg";
     SerialController controller;
@@ -174,10 +175,8 @@ public class SerialCommunicator : MonoBehaviour
 
     public void SetSimulationVisible(bool visible)
     {
-        foreach (MeshRenderer mesh in GetComponentsInChildren<MeshRenderer>())
-        {
-            mesh.enabled = visible;
-        }
+        mainCam.gameObject.SetActive(!visible);
+        simCam.gameObject.SetActive(visible);
     }
     void OnMessageArrived(string msg)
     {
