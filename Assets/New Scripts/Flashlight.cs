@@ -7,7 +7,6 @@ public class Flashlight : MonoBehaviour
     Vector3 point = Vector3.positiveInfinity;
     Quaternion tilt;
     SerialCommunicator scom;
-    float range = 50;
     public SphereCollider targetIntersect;
     public AnimalMarker[] markers;
     public TapetumController tc;
@@ -31,11 +30,13 @@ public class Flashlight : MonoBehaviour
     void FixedUpdate()
     {
         //CastOnWall(); 
-        targetIntersect.transform.position = new Ray(transform.position, transform.forward).GetPoint(range);
+        targetIntersect.transform.position = new Ray(transform.position, transform.forward).GetPoint(tc.range);
     }
 
-    public void ReceiveTilt(Quaternion q){
-        tilt = q;
+    public void ReceiveTilt(Quaternion q)
+    {
+        if (Quaternion.Angle(tilt, q) > tc.deadAngle)
+            tilt = q;
         transform.localRotation = tilt;
     }
 
@@ -61,7 +62,8 @@ public class Flashlight : MonoBehaviour
         {
             transform.localRotation = Quaternion.Euler(marker.animal.Orientation);
             Ray r = new Ray(transform.position, transform.forward);
-            marker.transform.position = r.GetPoint(range);
+            marker.transform.position = r.GetPoint(tc.range);
+            marker.transform.localScale = Vector3.one * tc.size;
         }
         transform.localRotation = rot;
     }

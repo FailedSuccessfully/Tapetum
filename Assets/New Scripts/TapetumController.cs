@@ -105,7 +105,7 @@ public class TapetumController : MonoBehaviour{
     static Animal target;
     static Animal lastTarget;
 
-    public float radius;
+    public float radius, range, size, deadAngle;
     public float animalCountdown;
     int nc = 0;
 

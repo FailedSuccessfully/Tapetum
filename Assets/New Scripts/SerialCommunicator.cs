@@ -35,8 +35,21 @@ public class SerialCommunicator : MonoBehaviour
             if (data[0] != ""){
                 controller.portName = data[0];
             }
-            if (data.Length > 1 && data[1] != ""){
+            if (data.Length > 1 && data[1] != "")
+            {
                 tc.radius = float.Parse(data[1]);
+            }
+            if (data.Length > 2 && data[2] != "")
+            {
+                tc.range = float.Parse(data[2]);
+            }
+            if (data.Length > 3 && data[3] != "")
+            {
+                tc.size = float.Parse(data[3]);
+            }
+            if (data.Length > 4 && data[4] != "")
+            {
+                tc.deadAngle = float.Parse(data[4]);
             }
         }
         
