@@ -49,7 +49,11 @@ public class SerialCommunicator : MonoBehaviour
             }
             if (data.Length > 4 && data[4] != "")
             {
-                tc.deadAngle = float.Parse(data[4]);
+                tc.dist = float.Parse(data[4]);
+                if (tc.dist <= 0)
+                {
+                    tc.dist = Mathf.Infinity;
+                }
             }
         }
         
@@ -197,6 +201,6 @@ public class SerialCommunicator : MonoBehaviour
     }
     void OnConnectionEvent(bool success)
     {
-        Debug.Log(success ? "connect" : "fail");
+        Debug.Log(success ? "connection success" : "connection failed");
    }
 }

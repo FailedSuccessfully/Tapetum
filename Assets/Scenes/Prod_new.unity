@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -265,9 +265,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 5
+  range: 0
+  size: 0
+  dist: 0
   animalCountdown: 5
   myState: {fileID: 1762214002}
   myTimer: {fileID: 842409859}
+  dampAngle: 0
   serial: {fileID: 1214264547}
   display: {fileID: 665912987}
   animals:
@@ -291,6 +295,8 @@ MonoBehaviour:
   debugDisplay: {fileID: 844658356}
   animalDebug: {fileID: 273805962}
   showcaseMode: 0
+  flashLightActive: 0
+  flashLightLock: 0
 --- !u!1 &165050389
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,6 +612,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: 41dc3866dc9b34642a8da05daefee24a, type: 2}
+  activeInSphere: 0
+  timer: 0
 --- !u!1001 &352629680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2459,6 +2467,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: 0a31c42c551ca964b87a3063abfad15f, type: 2}
+  activeInSphere: 0
+  timer: 0
 --- !u!1 &1214264544
 GameObject:
   m_ObjectHideFlags: 0
@@ -2594,7 +2604,7 @@ MonoBehaviour:
   simCam: {fileID: 1733289064}
   offset: {x: 0, y: 0, z: 0, w: 0}
   storedOrientation: {x: 0, y: 0, z: 0, w: 0}
-  test: {x: 0.2857085, y: -0.25799304, z: 0.8359975, w: -0.39104787}
+  test: {x: 0, y: 0, z: 0, w: 0}
   flight: {fileID: 408072271}
 --- !u!114 &1214264548
 MonoBehaviour:
@@ -2827,6 +2837,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: 7e70ecf7de0a58342b007f6cdb1dadf0, type: 2}
+  activeInSphere: 0
+  timer: 0
 --- !u!1 &1311573058
 GameObject:
   m_ObjectHideFlags: 0
@@ -3168,6 +3180,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: 95373ec8a9a50d548a284466a6b925d6, type: 2}
+  activeInSphere: 0
+  timer: 0
 --- !u!1 &1605155671
 GameObject:
   m_ObjectHideFlags: 0
@@ -3279,6 +3293,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: dd6806a5ea25ce94f94326a1059f0f23, type: 2}
+  activeInSphere: 0
+  timer: 0
 --- !u!1001 &1606796784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3630,6 +3646,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: c0966a07b6046b24ebfd8c4acac73785, type: 2}
+  activeInSphere: 0
+  timer: 0
 --- !u!1001 &1679753350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4093,11 +4111,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ad3ff092ef73e4498887dc0651797fa, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.91
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ad3ff092ef73e4498887dc0651797fa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.53
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ad3ff092ef73e4498887dc0651797fa, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4669,6 +4687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08ef28f8f7d72694599a17f0d9215dce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bufferTime: 1
 --- !u!1 &2078394669
 GameObject:
   m_ObjectHideFlags: 0
@@ -4780,6 +4799,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: ea35e88d9aa6ee24dbd7e92f0a92ced1, type: 2}
+  activeInSphere: 0
+  timer: 0
 --- !u!1 &2090800796
 GameObject:
   m_ObjectHideFlags: 0

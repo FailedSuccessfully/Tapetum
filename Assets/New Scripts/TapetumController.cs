@@ -55,20 +55,17 @@ public class TapetumController : MonoBehaviour{
                 if (myTimer != null){
                     boundObject.StopCoroutine(myTimer);
                 }
-                myTimer = boundObject.StartCoroutine(Timer(5, () => SetState(AppState.Searching))); 
+                myTimer = boundObject.StartCoroutine(Timer(5, () => { SetState(AppState.Searching); boundObject.flashLightLock = false; })); 
             }
         }
 
-        public static void ReceiveAnimal(Animal animal){
-           // Debug.Log($"target - {target} | animal - {animal}");
-            // if (flashlightOn){
-            //     if (animal != target){}
-            //     if ()
-                // if animal is null, delay for a bit 
-            // }
+        public static bool ReceiveAnimal(Animal animal)
+        {
+            bool hasAnimal = false;
             if (flashlightOn && target != animal){
                 if (animal){
                     SetState(AppState.AnimalScoped);
+                    hasAnimal = true;
                 }
                 else {
                     Debug.Log("animal null");
@@ -84,6 +81,7 @@ public class TapetumController : MonoBehaviour{
                 }
                 target = animal;
             }
+            return hasAnimal;
         }
 
         public static void BindObject(TapetumController obj){
@@ -105,7 +103,7 @@ public class TapetumController : MonoBehaviour{
     static Animal target;
     static Animal lastTarget;
 
-    public float radius, range, size, deadAngle;
+    public float radius, range, size, dist;
     public float animalCountdown;
     int nc = 0;
 
@@ -116,6 +114,7 @@ public class TapetumController : MonoBehaviour{
     Vector2 lastRead;
     static Vector2 projectionOffset;
     public static Vector2 GetOffset() => projectionOffset;
+    public float dampAngle;
     
 
     [SerializeReference] SerialCommunicator serial;
@@ -125,9 +124,8 @@ public class TapetumController : MonoBehaviour{
     [SerializeReference] RectTransform lightSimulation;
     [SerializeReference] GameObject wallDisplay, debugDisplay, animalDebug;
     [SerializeField] bool showcaseMode;
-    IEnumerable<Animal> orderedAnimals;
 
-    bool flashLightActive;
+    public bool flashLightActive, flashLightLock;
     public static AppState State => StateManager.state;
     public static Animal Target => target;
 
@@ -218,28 +216,11 @@ public class TapetumController : MonoBehaviour{
     public void GetTarget(Animal animal){
         target = animal;
         if (target  != lastTarget){
-            StateManager.ReceiveAnimal(target);
+            if (StateManager.ReceiveAnimal(target))
+            {
+                flashLightLock = true;
+            }
         }
-    }
-
-    public void OnCallOrientation(Quaternion q){
-        
-        // var test = animals.OrderBy(anim => Quaternion.Angle(q, Quaternion.Euler(anim.Orientation)));
-        // Animal first = test.First();
-        // if (Quaternion.Angle(q, Quaternion.Euler(first.Orientation)) <= radius){
-        //     target = first;
-        //     if (target != lastTarget){
-        //         StateManager.ReceiveAnimal(target);
-        //         nc = 0;
-        //     }
-        // }
-        // else{
-        //     nc++;
-        //     if (nc > 500){
-        //         StateManager.ReceiveAnimal(null);
-        //         nc = 0;
-        //     }
-        // }
     }
 
 
