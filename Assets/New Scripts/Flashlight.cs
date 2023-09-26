@@ -31,7 +31,7 @@ public class Flashlight : MonoBehaviour
             }
         } else {
             Quaternion rotation = Quaternion.RotateTowards(transform.rotation, tilt, 180 * Time.deltaTime);
-            //transform.rotation = rotation;
+            transform.rotation = rotation;
         } 
     }
 

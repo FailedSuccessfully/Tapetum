@@ -7,7 +7,9 @@ public class SphereTrigger : MonoBehaviour
 {
     TapetumController tc;
     List<AnimalMarker> inTrigger;
+    Animal target = null;
     public float bufferTime;
+    float timer = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -18,37 +20,37 @@ public class SphereTrigger : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    { 
-        Animal closest;
-        var activeMarkers = inTrigger.Where(mark => mark.activeInSphere);
-        if (activeMarkers.Count() ==0){
-            closest = null;
-        } else {
-            closest = activeMarkers.OrderBy(mark => Vector3.Distance(transform.position, mark.transform.position)).First().animal;
+    {
+        inTrigger = inTrigger.OrderBy(mark => Vector3.Distance(transform.position, mark.transform.position)).ToList();
+
+        Animal closest = inTrigger.Count > 0 ? inTrigger[0].animal : null;
+        if (closest != target)
+        {
+            timer = 0;
+            target = closest;
         }
-        tc.GetTarget(closest);
+
+        timer += Time.deltaTime;
+    }
+
+    private void LateUpdate()
+    {
+        if (timer > bufferTime)
+        {
+            tc.GetTarget(target);
+            timer = 0;
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<AnimalMarker>(out AnimalMarker mark)){
             inTrigger.Add(mark);
+            timer = 0;
             Debug.Log($"{other.gameObject.name} is added");
         }
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.TryGetComponent<AnimalMarker>(out AnimalMarker mark) && !mark.activeInSphere)
-        {
-            mark.timer += Time.deltaTime;
-            if (mark.timer >= bufferTime)
-            {
-                mark.activeInSphere = true;
-                Debug.Log($"{other.gameObject.name} is active");
-            }
-        }
-    }
 
     void OnTriggerExit(Collider other)
     {
