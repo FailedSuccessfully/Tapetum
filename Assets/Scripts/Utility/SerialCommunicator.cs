@@ -15,14 +15,11 @@ public class SerialCommunicator : MonoBehaviour
     public UnityEvent<Quaternion> NotifyOrientationQ;
     public UnityEvent<string> NotifyOrientationString;
 
-    [SerializeReference] TapetumController tc;
-    public Animal[] ta;
     public Camera mainCam, simCam;
 
     string cfg = Application.streamingAssetsPath + "/settings.cfg";
     SerialController controller;
     public Quaternion offset, storedOrientation, test;
-    public Flashlight flight;
     // Start is called before the first frame update
     void Awake()
     {
@@ -35,7 +32,7 @@ public class SerialCommunicator : MonoBehaviour
             if (data[0] != ""){
                 controller.portName = data[0];
             }
-            if (data.Length > 1 && data[1] != "")
+           /* if (data.Length > 1 && data[1] != "")
             {
                 tc.radius = float.Parse(data[1]);
             }
@@ -54,7 +51,7 @@ public class SerialCommunicator : MonoBehaviour
                 {
                     tc.dist = Mathf.Infinity;
                 }
-            }
+            }*/
         }
         
     }
@@ -63,7 +60,6 @@ public class SerialCommunicator : MonoBehaviour
         LoadData();
         NotifyOrientationQ.AddListener(vec => NotifyOrientationString.Invoke(vec.ToString()));
         storedOrientation = Quaternion.identity;
-        flight = GetComponentInChildren<Flashlight>();
         
     }
 
@@ -146,7 +142,7 @@ public class SerialCommunicator : MonoBehaviour
     }
     public void InvokeOrientation(){
         //NotifyOrientationQ.Invoke(test);
-        StartCoroutine(testQ());
+        //StartCoroutine(testQ());
 
     }
 
@@ -154,7 +150,7 @@ public class SerialCommunicator : MonoBehaviour
         Quaternion now = Quaternion.identity;
         Quaternion next;
         for (int i = 0; i < 1; i++){
-            foreach(Animal a in ta){
+/*            foreach(Animal a in ta){
                 next = Quaternion.Euler(a.Orientation);
 
                 for (float t = 0; t < 2; t+= Time.deltaTime){
@@ -164,7 +160,7 @@ public class SerialCommunicator : MonoBehaviour
                 NotifyOrientationQ.Invoke(next);
                 yield return new WaitForSeconds(1);
                 now = Quaternion.Euler(a.Orientation);
-            }
+            }*/
         }
         yield return null;
     }

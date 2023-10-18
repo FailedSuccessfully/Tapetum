@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 using System.IO;
 
 public enum AppState
@@ -205,10 +204,7 @@ public class TapetumController : MonoBehaviour{
 
     void LateUpdate()
     {
-        myState.text = StateManager.state.ToString();
-        myTimer.text = StateManager.StateTimer > 0 ? Mathf.CeilToInt(StateManager.StateTimer).ToString() : "0";
         lastTarget = target;
-        //display.HandleState();
     }
 
     public void OnCallActivity(bool activity){
@@ -235,13 +231,13 @@ public class TapetumController : MonoBehaviour{
     }
 
 
-    public void SaveCurrentPosition(InputAction.CallbackContext ctx){
-        int index = int.Parse(ctx.control.displayName) - 1;
+    public void SaveCurrentPosition() { //InputAction.CallbackContext ctx){
+        /*int index = int.Parse(ctx.control.displayName) - 1;
         Animal target = animals[index];
         target.Position = lastRead - projectionOffset;
         target.Orientation = (serial.storedOrientation * serial.offset).eulerAngles;
         SaveData();
-        serial.flight.SortMarkers();
+        serial.flight.SortMarkers();*/
     }
 
     public void PositionDefaults(){
@@ -252,7 +248,6 @@ public class TapetumController : MonoBehaviour{
         SaveData();
     }
 
-    public void QuitApplication() => Application.Quit();
 
     public void SetOffsets() {projectionOffset = lastRead; Debug.Log(projectionOffset);}
 

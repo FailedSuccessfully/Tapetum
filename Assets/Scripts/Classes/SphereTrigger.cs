@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class SphereTrigger : MonoBehaviour
 {
-    TapetumController tc;
     List<AnimalMarker> inTrigger;
     Animal target = null;
     public float bufferTime;
@@ -14,7 +13,6 @@ public class SphereTrigger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tc = transform.parent.GetComponentInChildren<Flashlight>().tc;
         inTrigger = new List<AnimalMarker>();
     }
 
@@ -37,7 +35,7 @@ public class SphereTrigger : MonoBehaviour
     {
         if (timer > bufferTime)
         {
-            tc.GetTarget(target);
+            //tc.GetTarget(target);
             timer = 0;
         }
     }
