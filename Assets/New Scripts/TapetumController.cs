@@ -223,14 +223,28 @@ public class TapetumController : MonoBehaviour{
         }
     }
 
+    public void CheckProximity() {
+        Animal closest = animals.OrderBy(a => Vector2.Distance(a.Position, lightSimulation.anchoredPosition)).FirstOrDefault();
+        if (closest != null && Vector2.Distance(closest.Position, lightSimulation.anchoredPosition) < radius)
+        {
+            StateManager.ReceiveAnimal(closest);
+            Debug.Log($"###{closest.name}");
+        }
+        else
+        {
+            StateManager.ReceiveAnimal(null);
+        }
+    }
+
 
     public void SaveCurrentPosition(InputAction.CallbackContext ctx){
         int index = int.Parse(ctx.control.displayName) - 1;
+        Debug.Log(index);
         Animal target = animals[index];
-        target.Position = lastRead - projectionOffset;
+        target.Position = lightSimulation.anchoredPosition;
         target.Orientation = (serial.storedOrientation * serial.offset).eulerAngles;
         SaveData();
-        serial.flight.SortMarkers();
+        //serial.flight.SortMarkers();
     }
 
     public void PositionDefaults(){

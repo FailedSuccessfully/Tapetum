@@ -23,6 +23,7 @@ public class SerialCommunicator : MonoBehaviour
     SerialController controller;
     public Quaternion offset, storedOrientation, test;
     public Flashlight flight;
+    char[] trim = {' ', '[', ']' };
     // Start is called before the first frame update
     void Awake()
     {
@@ -148,6 +149,21 @@ public class SerialCommunicator : MonoBehaviour
         //NotifyOrientationQ.Invoke(test);
         StartCoroutine(testQ());
 
+    }
+
+    public void ReceiveUDP(string msg)
+    {
+        string[] incoming = msg.Trim(trim).Split(',');
+        float x, y;
+        if (float.TryParse(incoming[0].Trim(), out x) && float.TryParse(incoming[1].Trim(), out y))
+        {
+            //TODO: verify flashlight on
+            // normalize values
+            x = Mathf.Lerp(0, 1920, x / 640);
+            y = Mathf.Lerp(1080, 0, y / 480);
+            Vector2 outgoing = new Vector2(x, y);
+            NotifyOrientation.Invoke(outgoing);
+        }
     }
 
     IEnumerator testQ(){
