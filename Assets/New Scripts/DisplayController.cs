@@ -12,6 +12,7 @@ public class DisplayController : MonoBehaviour
     [SerializeField]Image target;
     [SerializeField]Sprite[] stateSprites;
     [SerializeField]float transitionTime;
+    public float TransitionTime => transitionTime;
     [SerializeField] Image sequence;
 
     Material matInstance;

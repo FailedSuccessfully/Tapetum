@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -16,9 +17,13 @@ public class SerialCommunicator : MonoBehaviour
     public UnityEvent<string> NotifyOrientationString;
 
     [SerializeReference] TapetumController tc;
+    [SerializeField] int udpQueueLength = 1;
+    Vector2[] udpIncoming;
+    int runner = 0;
+    Vector2 nullVector => Vector2.one * -1;
     public Animal[] ta;
     public Camera mainCam, simCam;
-
+    
     string cfg = Application.streamingAssetsPath + "/settings.cfg";
     SerialController controller;
     public Quaternion offset, storedOrientation, test;
@@ -30,6 +35,10 @@ public class SerialCommunicator : MonoBehaviour
         settingPath = Application.persistentDataPath + settingPath;
         offset = Quaternion.identity;
         controller = GetComponent<SerialController>();
+        udpIncoming = new Vector2[udpQueueLength];
+        for (int i = 0; i < udpQueueLength; i++) { 
+            udpIncoming[i] = nullVector;
+        }
 
         if (File.Exists(cfg)){
             string[] data = File.ReadAllLines(cfg);
@@ -159,10 +168,18 @@ public class SerialCommunicator : MonoBehaviour
         {
             //TODO: verify flashlight on
             // normalize values
-            x = Mathf.Lerp(0, 1920, x / 640);
-            y = Mathf.Lerp(1080, 0, y / 480);
-            Vector2 outgoing = new Vector2(x, y);
-            NotifyOrientation.Invoke(outgoing);
+            x = Mathf.Lerp(0, Screen.currentResolution.width, x / 640);
+            y = Mathf.Lerp(Screen.currentResolution.height, 0, y / 480);
+            udpIncoming[runner] = new Vector2(x, y);
+            runner++;
+            runner %= udpQueueLength;
+
+            Vector2[] udpNonNull = udpIncoming.Where(vec => vec != nullVector).ToArray();
+            if (udpNonNull.Length > 0)
+            {
+                Vector2 sum = udpNonNull.Aggregate(Vector2.zero, (total, next) => total += next) / udpNonNull.Length;
+                NotifyOrientation.Invoke(sum);
+            }
         }
     }
 
@@ -217,6 +234,12 @@ public class SerialCommunicator : MonoBehaviour
     }
     void OnConnectionEvent(bool success)
     {
-        Debug.Log(success ? "connection success" : "connection failed");
+        if (success)
+        {
+            Debug.Log("connection success");
+        }
+        else {
+            Debug.LogError("connection failed");
+        }
    }
 }

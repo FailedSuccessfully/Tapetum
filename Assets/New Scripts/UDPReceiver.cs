@@ -11,7 +11,7 @@ using UnityEngine.Events;
 public class UDPReceiver : MonoBehaviour
 {
     private string ipAdress = "127.0.0.1";
-    [SerializeField]private int listenPort = 6100;
+    [SerializeField]private int listenPort;
     [SerializeField] UnityEvent<string> eventListeners;
 
     Thread listener;
@@ -34,6 +34,7 @@ public class UDPReceiver : MonoBehaviour
                 string s = incomingQ.Dequeue().ToString();
                 // handle here
                 eventListeners.Invoke(s);   
+                //Debug.Log(s);
             }
         }
     }
