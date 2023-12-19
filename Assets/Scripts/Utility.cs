@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public static class ProjectUtility
+public static class Utility
 {
     static readonly string path = Application.persistentDataPath + "/settingsT.cfg";
     [Serializable]

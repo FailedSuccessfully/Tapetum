@@ -6,21 +6,24 @@ public class Flashlight : MonoBehaviour
 {
     Vector3 point = Vector3.positiveInfinity;
     Quaternion tilt;
+    SerialCommunicator scom;
     public SphereCollider targetIntersect;
     public AnimalMarker[] markers;
+    public TapetumController tc;
     // Start is called before the first frame update
     void Start()
     {
+        scom = GetComponentInParent<SerialCommunicator>();
         tilt = Quaternion.identity;
 
-        targetIntersect.transform.localScale *= 1;//tc.radius;
+        targetIntersect.transform.localScale *= tc.radius;
         SortMarkers();
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*if (tc.flashLightLock) {
+        if (tc.flashLightLock) {
             Vector3 project = new Ray(transform.position, tilt * Vector3.forward).GetPoint(tc.range);
             if (Vector3.Distance(project, targetIntersect.transform.position) >= tc.dist)
             {
@@ -29,12 +32,12 @@ public class Flashlight : MonoBehaviour
         } else {
             Quaternion rotation = Quaternion.RotateTowards(transform.rotation, tilt, 180 * Time.deltaTime);
             transform.rotation = rotation;
-        } */
+        } 
     }
 
     void FixedUpdate()
     {
-        //targetIntersect.transform.position = new Ray(transform.position, transform.forward).GetPoint(tc.range);
+        targetIntersect.transform.position = new Ray(transform.position, transform.forward).GetPoint(tc.range);
     }
 
     public void ReceiveTilt(Quaternion q)
@@ -49,8 +52,8 @@ public class Flashlight : MonoBehaviour
         {
             transform.localRotation = Quaternion.Euler(marker.animal.Orientation);
             Ray r = new Ray(transform.position, transform.forward);
-            /*marker.transform.position = r.GetPoint(tc.range);
-            marker.transform.localScale = Vector3.one * tc.size;*/
+            marker.transform.position = r.GetPoint(tc.range);
+            marker.transform.localScale = Vector3.one * tc.size;
         }
         transform.localRotation = rot;
     }
