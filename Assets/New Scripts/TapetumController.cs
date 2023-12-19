@@ -16,11 +16,6 @@ public enum AppState
 
 
 public class TapetumController : MonoBehaviour{
-
-    /// <summary>
-    /// internal class to manage state
-    /// probably over engieneered
-    /// </summary>
     static class StateManager{
         public static AppState state = AppState.IdleOff;
         public static float StateTimer => outTimer;
@@ -32,10 +27,8 @@ public class TapetumController : MonoBehaviour{
         static Animal target;
         static Coroutine myTimer = null;
 
-        //TODO: delete if unused
         public static void ResetTimer(int time) => outTimer = time;
 
-        // Too rigid 
         public static void ReceieveActivity(bool signal){
             if (signal != flashlightOn){
                 if (!signal)
@@ -53,7 +46,6 @@ public class TapetumController : MonoBehaviour{
 
         }
 
-        //kind of pointless i think
         public static void SetState(AppState toSet){
             Debug.Log($"Setting To: {toSet.ToString()}");
             state = toSet;
@@ -67,7 +59,6 @@ public class TapetumController : MonoBehaviour{
             }
         }
 
-        //two steps necessiated by internal class. again, kind of pointless and needlessly confusing
         public static bool ReceiveAnimal(Animal animal)
         {
             bool hasAnimal = false;
@@ -93,13 +84,11 @@ public class TapetumController : MonoBehaviour{
             return hasAnimal;
         }
 
-        // why?
         public static void BindObject(TapetumController obj){
             boundObject = obj;
             //Debug.Log(boundObject.name);
         }
 
-        // this is very flimsy as a solution to maintaining one timer as a coroutine
         static IEnumerator Timer(float time, UnityAction onEnd){
             float timer = time;
             while(timer > 0){

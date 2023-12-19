@@ -190,13 +190,11 @@ public class SerialCommunicator : MonoBehaviour
         File.WriteAllLines(settingPath, s);
     }
 
-    // shouldn't be here
     public void SetSimulationVisible(bool visible)
     {
         mainCam.gameObject.SetActive(!visible);
         simCam.gameObject.SetActive(visible);
     }
-    // maybe first collect the messages to expedite processing
     void OnMessageArrived(string msg)
     {
         AcceptMessage(msg);

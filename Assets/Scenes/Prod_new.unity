@@ -613,6 +613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: 41dc3866dc9b34642a8da05daefee24a, type: 2}
   activeInSphere: 0
+  timer: 0
 --- !u!1001 &352629680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1287,7 +1288,6 @@ GameObject:
   m_Component:
   - component: {fileID: 645694299}
   - component: {fileID: 645694298}
-  - component: {fileID: 645694300}
   m_Layer: 0
   m_Name: ApplicationController
   m_TagString: Untagged
@@ -1484,19 +1484,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &645694300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 645694297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a478837a4d8ff246a8ed4841277fb89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tapetum: {fileID: 51220527}
 --- !u!1 &665912980
 GameObject:
   m_ObjectHideFlags: 0
@@ -2481,6 +2468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: 0a31c42c551ca964b87a3063abfad15f, type: 2}
   activeInSphere: 0
+  timer: 0
 --- !u!1 &1214264544
 GameObject:
   m_ObjectHideFlags: 0
@@ -2850,6 +2838,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: 7e70ecf7de0a58342b007f6cdb1dadf0, type: 2}
   activeInSphere: 0
+  timer: 0
 --- !u!1 &1311573058
 GameObject:
   m_ObjectHideFlags: 0
@@ -3192,6 +3181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: 95373ec8a9a50d548a284466a6b925d6, type: 2}
   activeInSphere: 0
+  timer: 0
 --- !u!1 &1605155671
 GameObject:
   m_ObjectHideFlags: 0
@@ -3304,6 +3294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: dd6806a5ea25ce94f94326a1059f0f23, type: 2}
   activeInSphere: 0
+  timer: 0
 --- !u!1001 &1606796784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3656,6 +3647,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: c0966a07b6046b24ebfd8c4acac73785, type: 2}
   activeInSphere: 0
+  timer: 0
 --- !u!1001 &1679753350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4808,6 +4800,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: ea35e88d9aa6ee24dbd7e92f0a92ced1, type: 2}
   activeInSphere: 0
+  timer: 0
 --- !u!1 &2090800796
 GameObject:
   m_ObjectHideFlags: 0
