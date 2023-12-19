@@ -47,7 +47,6 @@ public class TapetumController : MonoBehaviour{
         }
 
         public static void SetState(AppState toSet){
-            Debug.Log($"Setting To: {toSet.ToString()}");
             state = toSet;
             boundObject.StateCallback();
 
@@ -55,7 +54,7 @@ public class TapetumController : MonoBehaviour{
                 if (myTimer != null){
                     boundObject.StopCoroutine(myTimer);
                 }
-                myTimer = boundObject.StartCoroutine(Timer(5, () => { SetState(AppState.Searching); boundObject.flashLightLock = false; })); 
+                myTimer = boundObject.StartCoroutine(Timer(5 + boundObject.display.TransitionTime, () => { SetState(AppState.Searching); boundObject.flashLightLock = false; })); 
             }
         }
 
@@ -68,14 +67,11 @@ public class TapetumController : MonoBehaviour{
                     hasAnimal = true;
                 }
                 else {
-                    Debug.Log("animal null");
                     if (myTimer!= null){
                         boundObject.StopCoroutine(myTimer);
                         myTimer = null;
-                        Debug.Log("Timer null");
                     }
                     if (state != AppState.Searching){
-                        Debug.Log("going searching");
                         SetState(AppState.Searching);
                     }
                 }
@@ -223,14 +219,29 @@ public class TapetumController : MonoBehaviour{
         }
     }
 
+    public void CheckProximity() {
+        Animal closest = animals.OrderBy(a => Vector2.Distance(a.Position, lightSimulation.anchoredPosition)).FirstOrDefault();
+        float dist = Vector2.Distance(closest.Position, lightSimulation.anchoredPosition);
+        Debug.Log($"Closest: {closest.name} | Distance: {dist} | Radius: {radius}");
+        if (closest != null && dist < radius)
+        {
+            GetTarget(closest);
+        }
+        else
+        {
+            GetTarget(null);
+        }
+    }
+
 
     public void SaveCurrentPosition(InputAction.CallbackContext ctx){
         int index = int.Parse(ctx.control.displayName) - 1;
+        Debug.Log(index);
         Animal target = animals[index];
-        target.Position = lastRead - projectionOffset;
+        target.Position = lightSimulation.anchoredPosition;
         target.Orientation = (serial.storedOrientation * serial.offset).eulerAngles;
         SaveData();
-        serial.flight.SortMarkers();
+        //serial.flight.SortMarkers();
     }
 
     public void PositionDefaults(){

@@ -264,7 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c39cc25020be6c46be0b03d8fd1dbc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 5
+  radius: 15
   range: 0
   size: 0
   dist: 0
@@ -613,7 +613,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: 41dc3866dc9b34642a8da05daefee24a, type: 2}
   activeInSphere: 0
-  timer: 0
 --- !u!1001 &352629680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2468,7 +2467,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: 0a31c42c551ca964b87a3063abfad15f, type: 2}
   activeInSphere: 0
-  timer: 0
 --- !u!1 &1214264544
 GameObject:
   m_ObjectHideFlags: 0
@@ -2481,6 +2479,7 @@ GameObject:
   - component: {fileID: 1214264548}
   - component: {fileID: 1214264547}
   - component: {fileID: 1214264549}
+  - component: {fileID: 1214264550}
   m_Layer: 0
   m_Name: LightSimulation
   m_TagString: Untagged
@@ -2537,10 +2536,22 @@ MonoBehaviour:
   NotifyOrientation:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1698883818}
+        m_TargetAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+        m_MethodName: set_anchoredPosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 51220527}
         m_TargetAssemblyTypeName: TapetumController, Assembly-CSharp
-        m_MethodName: OnCallOrientation
-        m_Mode: 0
+        m_MethodName: CheckProximity
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2555,18 +2566,6 @@ MonoBehaviour:
       - m_Target: {fileID: 408072271}
         m_TargetAssemblyTypeName: Flashlight, Assembly-CSharp
         m_MethodName: ReceiveTilt
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 51220527}
-        m_TargetAssemblyTypeName: TapetumController, Assembly-CSharp
-        m_MethodName: OnCallOrientation
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2592,6 +2591,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   tc: {fileID: 51220527}
+  udpQueueLength: 10
   ta:
   - {fileID: 11400000, guid: dd6806a5ea25ce94f94326a1059f0f23, type: 2}
   - {fileID: 11400000, guid: ea35e88d9aa6ee24dbd7e92f0a92ced1, type: 2}
@@ -2637,6 +2637,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 4900000, guid: 3296ebb2196e8db438c55f420241710b, type: 3}
+--- !u!114 &1214264550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214264544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a912f490ce4236438cbf662bcc77710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listenPort: 13000
+  eventListeners:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1214264547}
+        m_TargetAssemblyTypeName: SerialCommunicator, Assembly-CSharp
+        m_MethodName: ReceiveUDP
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &1269829092 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 649982980673666519, guid: 77c9d4d1a8d15244c85e49c6e58aea85, type: 3}
@@ -2838,7 +2866,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: 7e70ecf7de0a58342b007f6cdb1dadf0, type: 2}
   activeInSphere: 0
-  timer: 0
 --- !u!1 &1311573058
 GameObject:
   m_ObjectHideFlags: 0
@@ -3181,7 +3208,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: 95373ec8a9a50d548a284466a6b925d6, type: 2}
   activeInSphere: 0
-  timer: 0
 --- !u!1 &1605155671
 GameObject:
   m_ObjectHideFlags: 0
@@ -3294,7 +3320,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: dd6806a5ea25ce94f94326a1059f0f23, type: 2}
   activeInSphere: 0
-  timer: 0
 --- !u!1001 &1606796784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3647,7 +3672,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: c0966a07b6046b24ebfd8c4acac73785, type: 2}
   activeInSphere: 0
-  timer: 0
 --- !u!1001 &1679753350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3875,15 +3899,15 @@ RectTransform:
   m_GameObject: {fileID: 1698883817}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1}
-  m_LocalScale: {x: 25, y: 25, z: 1}
+  m_LocalScale: {x: 200, y: 200, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1269829092}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 35, y: 35}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 25.099976, y: 32.669983}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &1698883819
@@ -3953,7 +3977,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1723677304
 Transform:
   m_ObjectHideFlags: 0
@@ -4580,7 +4604,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1891315406
 Transform:
   m_ObjectHideFlags: 0
@@ -4605,7 +4629,7 @@ SphereCollider:
   m_GameObject: {fileID: 1891315405}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -4800,7 +4824,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animal: {fileID: 11400000, guid: ea35e88d9aa6ee24dbd7e92f0a92ced1, type: 2}
   activeInSphere: 0
-  timer: 0
 --- !u!1 &2090800796
 GameObject:
   m_ObjectHideFlags: 0
@@ -5101,7 +5124,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 649982980673666512, guid: 77c9d4d1a8d15244c85e49c6e58aea85, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 649982980673666516, guid: 77c9d4d1a8d15244c85e49c6e58aea85, type: 3}
       propertyPath: m_Delegates.Array.size
@@ -5200,6 +5223,14 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 649982980673666518, guid: 77c9d4d1a8d15244c85e49c6e58aea85, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4eadb7cf134d5da42b31cbd2c3f1d7f5, type: 3}
+    - target: {fileID: 649982980673666518, guid: 77c9d4d1a8d15244c85e49c6e58aea85, type: 3}
+      propertyPath: m_Color.a
+      value: 0.36862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 649982980673666518, guid: 77c9d4d1a8d15244c85e49c6e58aea85, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -5221,7 +5252,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 649982980673666519, guid: 77c9d4d1a8d15244c85e49c6e58aea85, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 649982980673666519, guid: 77c9d4d1a8d15244c85e49c6e58aea85, type: 3}
       propertyPath: m_AnchorMin.x
@@ -5229,7 +5260,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 649982980673666519, guid: 77c9d4d1a8d15244c85e49c6e58aea85, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 649982980673666519, guid: 77c9d4d1a8d15244c85e49c6e58aea85, type: 3}
       propertyPath: m_SizeDelta.x
