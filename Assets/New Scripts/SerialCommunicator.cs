@@ -36,10 +36,6 @@ public class SerialCommunicator : MonoBehaviour
         settingPath = Application.persistentDataPath + settingPath;
         offset = Quaternion.identity;
         controller = GetComponent<SerialController>();
-        udpIncoming = new Vector2[udpQueueLength];
-        for (int i = 0; i < udpQueueLength; i++) { 
-            udpIncoming[i] = nullVector;
-        }
 
         if (File.Exists(cfg)){
             string[] data = File.ReadAllLines(cfg);
@@ -60,14 +56,16 @@ public class SerialCommunicator : MonoBehaviour
             }
             if (data.Length > 4 && data[4] != "")
             {
-                tc.dist = float.Parse(data[4]);
-                if (tc.dist <= 0)
-                {
-                    tc.dist = Mathf.Infinity;
-                }
+                udpQueueLength = int.Parse(data[4]);
             }
         }
-        
+
+        udpIncoming = new Vector2[udpQueueLength];
+        for (int i = 0; i < udpQueueLength; i++)
+        {
+            udpIncoming[i] = nullVector;
+        }
+
     }
     void Start()
     {

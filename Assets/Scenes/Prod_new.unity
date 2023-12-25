@@ -1036,7 +1036,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &408072268
 Transform:
   m_ObjectHideFlags: 0
@@ -2562,36 +2562,12 @@ MonoBehaviour:
         m_CallState: 2
   NotifyOrientationQ:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 408072271}
-        m_TargetAssemblyTypeName: Flashlight, Assembly-CSharp
-        m_MethodName: ReceiveTilt
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   NotifyOrientationString:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1464746239}
-        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   tc: {fileID: 51220527}
-  udpQueueLength: 10
+  udpQueueLength: 3
   ta:
   - {fileID: 11400000, guid: dd6806a5ea25ce94f94326a1059f0f23, type: 2}
   - {fileID: 11400000, guid: ea35e88d9aa6ee24dbd7e92f0a92ced1, type: 2}
@@ -3085,17 +3061,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 16836989340531230, guid: e1bb920c6a159f84ea94238a89a0630b, type: 3}
   m_PrefabInstance: {fileID: 1464746237}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1464746239 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 16836990628379086, guid: e1bb920c6a159f84ea94238a89a0630b, type: 3}
-  m_PrefabInstance: {fileID: 1464746237}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1552345881
 GameObject:
   m_ObjectHideFlags: 0
@@ -3977,7 +3942,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1723677304
 Transform:
   m_ObjectHideFlags: 0
@@ -4604,7 +4569,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1891315406
 Transform:
   m_ObjectHideFlags: 0
@@ -4842,7 +4807,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &2090800798
 MeshRenderer:
   m_ObjectHideFlags: 0
