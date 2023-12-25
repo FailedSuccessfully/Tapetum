@@ -11,11 +11,12 @@ using UnityEngine.Events;
 public class UDPReceiver : MonoBehaviour
 {
     private string ipAdress = "127.0.0.1";
-    [SerializeField]private int listenPort;
+    [SerializeField] private int listenPort;
     [SerializeField] UnityEvent<string> eventListeners;
 
     Thread listener;
     static Queue incomingQ = Queue.Synchronized(new Queue());
+    static string[] invoker;
     static UdpClient udpClient;
     private IPEndPoint endPoint;
     bool isListening;
@@ -28,13 +29,23 @@ public class UDPReceiver : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        lock (incomingQ.SyncRoot) { 
+        lock (incomingQ.SyncRoot)
+        {
             if (incomingQ.Count > 0)
             {
-                string s = incomingQ.Dequeue().ToString();
-                // handle here
-                eventListeners.Invoke(s);   
-                //Debug.Log(s);
+                invoker = new string[incomingQ.Count];
+                incomingQ.CopyTo(invoker, 0);
+                incomingQ.Clear();
+
+                //eventListeners.Invoke(incomingQ.Dequeue().ToString());
+            }
+        }
+        if (invoker != null)
+        {
+            foreach (string str in invoker)
+            {
+                eventListeners.Invoke(str);
+                invoker = null;
             }
         }
     }
@@ -44,10 +55,11 @@ public class UDPReceiver : MonoBehaviour
         EndUDP();
     }
 
-    void StartUDP() { 
+    void StartUDP()
+    {
         endPoint = new IPEndPoint(IPAddress.Parse(ipAdress), listenPort);
         udpClient = new UdpClient(endPoint);
-        
+
         Debug.Log($"Listening on port: {listenPort}");
         listener = new Thread(new ThreadStart(MessageHandler));
         listener.Start();
@@ -83,7 +95,7 @@ public class UDPReceiver : MonoBehaviour
     {
         listener?.Abort();
         udpClient?.Close();
-        isListening= false;
+        isListening = false;
     }
 }
 

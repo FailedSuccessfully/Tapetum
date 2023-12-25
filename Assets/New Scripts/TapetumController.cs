@@ -222,7 +222,7 @@ public class TapetumController : MonoBehaviour{
     public void CheckProximity() {
         Animal closest = animals.OrderBy(a => Vector2.Distance(a.Position, lightSimulation.anchoredPosition)).FirstOrDefault();
         float dist = Vector2.Distance(closest.Position, lightSimulation.anchoredPosition);
-        Debug.Log($"Closest: {closest.name} | Distance: {dist} | Radius: {radius}");
+        //Debug.Log($"Closest: {closest.name} | Distance: {dist} | Radius: {radius}");
         if (closest != null && dist < radius)
         {
             GetTarget(closest);

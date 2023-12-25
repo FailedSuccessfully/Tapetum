@@ -16,6 +16,11 @@ String maskImgPath = "mask.jpg";
 int udpPort = 13000;
 int resolutionW = 1920;
 int resolutionH =  1080;
+int printTime = 0; 
+int printCount = 0;
+int mps = 0;
+float msgRate;
+long lastPrint = 0;
 
 void settings(){
   size(resolutionW, resolutionH);
@@ -35,6 +40,7 @@ void setup(){
     udpPort = settings.getInt("udp_port");
     resolutionW = settings.getInt("resolution_width");
     resolutionH = settings.getInt("resolution_height");
+    mps = settings.getInt("messages_per_second");
     windowResize(resolutionW,resolutionH);
   } else {
     settings = new JSONObject();
@@ -46,9 +52,15 @@ void setup(){
     settings.setInt("udp_port", udpPort);
     settings.setInt("resolution_width", resolutionW);
     settings.setInt("resolution_height", resolutionH);
+    settings.setInt("messages_per_second", mps);
     saveJSONObject(settings, "data\\" +cfgFile);
   }
   
+  if (mps <= 0){
+    msgRate = 0;
+  } else {
+    msgRate = 1000 / mps;
+  }
   pi = new PImage(width,height);
   pimask = new PImage(width, height);
   mask = loadImage(maskImgPath);
@@ -62,7 +74,6 @@ void setup(){
 }
 
 void draw(){
-  
   background(0);
   image(pi, 0,0);
   //image(feed.getOutput(),0,0);
@@ -84,8 +95,10 @@ void draw(){
           sumY += point.y;
           count++;
         }
-        udp.send(new PVector(sumX / count, sumY / count).toString(), "localhost", udpPort);
-        
+        if (millis() - msgRate >= lastPrint){
+          udp.send(new PVector(sumX / count, sumY / count).toString(), "localhost", udpPort);
+          lastPrint = millis();
+        }
       }
     }
   }

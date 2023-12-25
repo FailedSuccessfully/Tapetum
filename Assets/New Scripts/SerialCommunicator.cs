@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -74,6 +75,8 @@ public class SerialCommunicator : MonoBehaviour
         NotifyOrientationQ.AddListener(vec => NotifyOrientationString.Invoke(vec.ToString()));
         storedOrientation = Quaternion.identity;
         flight = GetComponentInChildren<Flashlight>();
+
+
         
     }
 
@@ -82,15 +85,9 @@ public class SerialCommunicator : MonoBehaviour
     {
     }
 
-    void AcceptMessage() {
-        string message = controller.ReadSerialMessage();
 
-        if (message is null || message.Length == 0)
-        {
-            return;
-        }
-        AcceptMessage(message);
-    }
+
+    public void PrintSerial(string msg) => Debug.Log(msg);
 
     public void AcceptMessage(string message) { 
 
@@ -179,9 +176,11 @@ public class SerialCommunicator : MonoBehaviour
             {
                 Vector2 sum = udpNonNull.Aggregate(Vector2.zero, (total, next) => total += next) / udpNonNull.Length;
                 NotifyOrientation.Invoke(sum);
+                Debug.Log(sum);
             }
         }
     }
+    public void JustPrint(string toPrint) => Debug.Log(toPrint);
 
     IEnumerator testQ(){
         Quaternion now = Quaternion.identity;
@@ -230,7 +229,7 @@ public class SerialCommunicator : MonoBehaviour
     }
     void OnMessageArrived(string msg)
     {
-        AcceptMessage(msg);
+       AcceptMessage(msg);
     }
     void OnConnectionEvent(bool success)
     {
