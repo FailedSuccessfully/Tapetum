@@ -9,9 +9,9 @@ public class DisplayController : MonoBehaviour
 {
 
 
-    [SerializeField]Image target;
-    [SerializeField]Sprite[] stateSprites;
-    [SerializeField]float transitionTime;
+    [SerializeField] Image target;
+    [SerializeField] Sprite[] stateSprites;
+    [SerializeField] float transitionTime;
     public float TransitionTime => transitionTime;
     [SerializeField] Image sequence;
 
@@ -25,41 +25,59 @@ public class DisplayController : MonoBehaviour
         target.material = matInstance;
     }
 
-    public void HandleState(){
+    public void HandleState()
+    {
         Sprite spr;
         bool instant = false;
-        switch(TapetumController.State){
-            case AppState.IdleOff:{
-                spr = stateSprites[0];
-                instant = true;
-                break;
-            }
-            case AppState.InfoOn:{
-                spr = stateSprites[1];
-                break;
-            }
-            case AppState.Searching:{
-                spr = stateSprites[2];
-                break;
-            }
-            case AppState.AnimalScoped:{
-                spr = TapetumController.Target.Image;
-                break;
-            }
-            default:{
-                spr = null;
-                break;
-            }
+        switch (TapetumController.State)
+        {
+            case AppState.IdleOff:
+                {
+                    spr = stateSprites[0];
+                    instant = true;
+                    break;
+                }
+            case AppState.InfoOn:
+                {
+                    spr = stateSprites[1];
+                    break;
+                }
+            case AppState.Searching:
+                {
+                    spr = stateSprites[2];
+                    break;
+                }
+            case AppState.AnimalScoped:
+                {
+                    Animal thisTarget = TapetumController.Target;
+                    if (thisTarget == null)
+                    {
+                        spr = stateSprites[2];
+                        Debug.LogWarning($"State is animal scoped but failed to acquire animal");
+                    }
+                    else
+                    {
+                        spr = TapetumController.Target.Image;
+                    }
+                    break;
+                }
+            default:
+                {
+                    spr = null;
+                    break;
+                }
         }
         sequence.gameObject.SetActive(TapetumController.State == AppState.IdleOff ? true : false);
         SetDisplay(spr, instant ? 0 : transitionTime);
     }
 
-    void SetDisplay(Sprite spr, float time){
-        if (! (transition is null))
+    void SetDisplay(Sprite spr, float time)
+    {
+        if (!(transition is null))
             StopCoroutine(transition);
         Texture t = matInstance.GetTexture("_To");
-        if (t){
+        if (t)
+        {
             matInstance.SetTexture("_From", t);
         }
         matInstance.SetTexture("_To", spr.texture);
@@ -67,10 +85,13 @@ public class DisplayController : MonoBehaviour
 
         transition = StartCoroutine(DoTransition(time));
     }
-    IEnumerator DoTransition(float transitionTime){
-        if (transitionTime != 0){
+    IEnumerator DoTransition(float transitionTime)
+    {
+        if (transitionTime != 0)
+        {
             float rate = 1 / transitionTime;
-            for (float t = 0; t < transitionTime; t += Time.deltaTime){
+            for (float t = 0; t < transitionTime; t += Time.deltaTime)
+            {
                 matInstance.SetFloat("_Lerp", t * rate);
                 yield return new WaitForEndOfFrame();
             }

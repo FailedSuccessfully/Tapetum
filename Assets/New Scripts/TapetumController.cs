@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using System.IO;
+using System;
 
 public enum AppState
 {
@@ -154,7 +155,13 @@ public class TapetumController : MonoBehaviour{
     }
     
     internal void StateCallback(){
-        display.HandleState();
+        try
+        {
+            display.HandleState();
+        } catch(Exception e) { 
+            Debug.LogException(e);
+            Debug.LogError($"Failed on state callback for state {StateManager.state}");
+        }
     }
 
     // Update is called once per frame
